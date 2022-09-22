@@ -12,6 +12,10 @@ import { Query } from "./resolvers/Query.js"
 import { Product } from "./resolvers/Product.js"
 import { Category } from "./resolvers/Category.js"
 
+// Data
+import products from "./data/products.json" assert { type: "json" }
+import categories from "./data/categories.json" assert { type: "json" }
+
 //* Resolver: Actual functions that return data that we defined in schema
 const resolvers = {
     Query,
@@ -35,6 +39,10 @@ async function startApolloServer(typeDefs, resolvers) {
                 httpServer,
             }),
         ],
+        context: {
+            categories,
+            products,
+        },
     })
 
     await server.start()

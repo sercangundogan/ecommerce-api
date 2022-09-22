@@ -1,6 +1,3 @@
-import products from "../data/products.json" assert { type: "json" }
-import categories from "../data/categories.json" assert { type: "json" }
-
 const Query = {
     hello: () => {
         return null //* Query is String but this return value can be also null
@@ -23,17 +20,17 @@ const Query = {
     animalsString: () => {
         return ["cat", "dog"] // Has to be only string because type is [String!]
     },
-    products: () => {
+    products: (parent, args, { products }) => {
         return products
     },
-    product: (parent, args, context) => {
+    product: (parent, args, { products }) => {
         const productId = args.id
         return products.find((product) => product.id === productId)
     },
-    categories: () => {
+    categories: (parent, args, { categories }) => {
         return categories
     },
-    category: (parent, args, context) => {
+    category: (parent, args, { categories }) => {
         const { id } = args
         return categories.find((category) => category.id === id)
     },
