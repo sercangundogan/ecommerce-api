@@ -89,6 +89,21 @@ const products = [
     },
 ]
 
+const categories = [
+    {
+        id: "c01b1ff4-f894-4ef2-b27a-22aacc2fca70",
+        name: "Kitchen",
+    },
+    {
+        id: "34115aac-0ff5-4859-8f43-10e8db23602b",
+        name: "Garden",
+    },
+    {
+        id: "d914aec0-25b2-4103-9ed8-225d39018d1d",
+        name: "Sports",
+    },
+]
+
 /* Scalar Types
     - String
     - Int
@@ -108,15 +123,24 @@ const typeDefs = gql`
         animals: [String]
         animalsString: [String!]
         products: [Product!]!
+        product(id: ID!): Product
+        categories: [Category!]!
+        category(id: ID!): Category
     }
 
     type Product {
+        id: ID!
         name: String!
         description: String!
         quantity: Int!
         image: String!
         price: Float!
         onSale: Boolean!
+    }
+
+    type Category {
+        id: ID!
+        name: String
     }
 `
 
@@ -146,6 +170,17 @@ const resolvers = {
         },
         products: () => {
             return products
+        },
+        product: (parent, args, context) => {
+            const productId = args.id
+            return products.find((product) => product.id === productId)
+        },
+        categories: () => {
+            return categories
+        },
+        category: (parent, args, context) => {
+            const { id } = args
+            return categories.find((category) => category.id === id)
         },
     },
 }
