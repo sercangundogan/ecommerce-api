@@ -8,6 +8,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "parser": "@babel/eslint-parser",
     "rules": {
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "double"],
