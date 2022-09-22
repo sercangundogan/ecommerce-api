@@ -4,10 +4,24 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core"
 import express from "express"
 import http from "http"
 
+/* Scalar Types
+    - String
+    - Int
+    - Float
+    - Boolean
+    - ID!
+*/
+
 //* Schema: How our data is going to looks likes
 const typeDefs = gql`
     type Query {
         hello: String
+        helloString: String!
+        numberOfAnimals: Int
+        price: Float
+        isCool: Boolean
+        animals: [String]
+        animalsString: [String!]
     }
 `
 
@@ -15,7 +29,25 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         hello: () => {
-            return "Hello World"
+            return null //* Query is String but this return value can be also null
+        },
+        helloString: () => {
+            return "Hello World" //* Query is String! so this return value can not be null
+        },
+        numberOfAnimals: () => {
+            return 55
+        },
+        price: () => {
+            return 10.8
+        },
+        isCool: () => {
+            return true
+        },
+        animals: () => {
+            return ["dog", null, 22.9] // 22.9 will be also string and return as "22.9"
+        },
+        animalsString: () => {
+            return ["cat", "dog"] // Has to be only string because type is [String!]
         },
     },
 }
