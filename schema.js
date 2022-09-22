@@ -18,13 +18,15 @@ export const typeDefs = gql`
         isCool: Boolean
         animals: [String]
         animalsString: [String!]
-        products: [Product!]!
-        product(id: ID!): Product
+        products(filter: ProductsFilterInput): [Product!]!
+        product(id: ID!): Product # We are not defining Scalar Type here, so we need to define it below
         categories: [Category!]!
         category(id: ID!): Category
+        reviews: [Review!]!
+        review(productId: ID!): Review
     }
 
-    type Product {
+    type Product { # We defined the type Product
         id: ID!
         name: String!
         description: String!
@@ -33,11 +35,26 @@ export const typeDefs = gql`
         price: Float!
         onSale: Boolean!
         category: Category
+        reviews: [Review!]! # We also need to define Review Resolver
     }
 
     type Category {
         id: ID!
         name: String
-        products: [Product!]!
+        products(filter: ProductsFilterInput): [Product!]!
+    }
+
+    type Review {
+        id: ID!
+        date: String!
+        title: String!
+        comment: String!
+        rating: Int!
+        productId: ID!
+    }
+
+    input ProductsFilterInput {
+        onSale: Boolean
+        avgRating: Int
     }
 `

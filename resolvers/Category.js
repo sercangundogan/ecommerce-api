@@ -1,7 +1,16 @@
 const Category = {
-    products: (parent, args, { products }) => {
+    products: (parent, { filter }, { products }) => {
         const categoryId = parent.id
-        return products.filter((product) => product.categoryId === categoryId)
+        const categoryProduct = products.filter(
+            (product) => product.categoryId === categoryId
+        )
+        let filteredCategoryProducts = categoryProduct
+        if (filter) {
+            filteredCategoryProducts = filteredCategoryProducts.filter(
+                (product) => product.onSale === filter.onSale
+            )
+        }
+        return filteredCategoryProducts
     },
 }
 

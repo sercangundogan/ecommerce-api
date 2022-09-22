@@ -20,8 +20,32 @@ const Query = {
     animalsString: () => {
         return ["cat", "dog"] // Has to be only string because type is [String!]
     },
-    products: (parent, args, { products }) => {
-        return products
+    products: (parent, { filter }, { products, reviews }) => {
+        let filteredProducts = products
+        if (filter) {
+            const { onSale, avgRating } = filter
+            if (onSale) {
+                filteredProducts = filteredProducts.filter(
+                    (product) => product.onSale === filter.onSale
+                )
+            }
+            if ([1, 2, 3, 4, 5].includes(avgRating)) {
+                filteredProducts = filteredProducts.filter((product) => {
+                    let sumRating = 0
+                    let numberOfReviews = 0
+                    reviews.forEach((review) => {
+                        if (review.productId === product.id) {
+                            numberOfReviews += 1
+                            sumRating += review.rating
+                        }
+                    })
+                    let avgProductRating = sumRating / numberOfReviews
+                    console.log(numberOfReviews)
+                    return avgRating <= avgProductRating
+                })
+            }
+        }
+        return filteredProducts
     },
     product: (parent, args, { products }) => {
         const productId = args.id
@@ -33,6 +57,15 @@ const Query = {
     category: (parent, args, { categories }) => {
         const { id } = args
         return categories.find((category) => category.id === id)
+    },
+    reviews: (parent, args, { reviews }) => {
+        console.log("Parent: ", parent)
+        console.log("Args: ", args)
+        // console.log("Context: ", reviews)
+        return reviews
+    },
+    review: (parent, { productId }, { reviews }) => {
+        return reviews.find((review) => review.productId === productId)
     },
 }
 
