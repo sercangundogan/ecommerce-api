@@ -9,18 +9,18 @@ import { typeDefs } from "./schema.js"
 
 // Resolvers
 import { Query } from "./resolvers/Query.js"
+import { Mutation } from "./resolvers/Mutation.js"
 import { Product } from "./resolvers/Product.js"
 import { Category } from "./resolvers/Category.js"
 import { Review } from "./resolvers/Review.js"
 
 // Data
-import products from "./data/products.json" assert { type: "json" }
-import categories from "./data/categories.json" assert { type: "json" }
-import reviews from "./data/reviews.json" assert { type: "json" }
+import { products, categories, reviews } from "./data/db.js"
 
 //* Resolver: Actual functions that return data that we defined in schema
 const resolvers = {
     Query,
+    Mutation,
     Category,
     Product,
     Review,
