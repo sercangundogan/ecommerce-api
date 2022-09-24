@@ -49,8 +49,38 @@ export const Mutation = {
         reviews = reviews.filter((review) => review.productId !== id)
         return true
     },
-    deleteReview: (parent, { id }, { reviews, products }) => {
-        console.log("Product Keys: ", Object.keys(products[0]))
+    deleteReview: (parent, { id }, { reviews }) => {
+        reviews = reviews.filter((review) => review.id !== id)
         return true
+    },
+    updateCategory: (parent, { id, input }, { categories }) => {
+        let index = categories.findIndex((category) => category.id === id)
+        if (index === -1) return null
+        console.log("Category: ", categories[index])
+        categories[index] = {
+            ...categories[index],
+            ...input,
+        }
+        return categories[index]
+    },
+    updateProduct: (parent, { id, input }, { products }) => {
+        let index = products.findIndex((product) => product.id === id)
+        if (index === -1) return null
+        console.log("Product: ", products[index])
+        products[index] = {
+            ...products[index],
+            ...input,
+        }
+        return products[index]
+    },
+    updateReview: (parent, { id, input }, { reviews }) => {
+        let index = reviews.findIndex((review) => review.id === id)
+        if (index === -1) return null
+        console.log("Review: ", reviews[index])
+        reviews[index] = {
+            ...reviews[index],
+            ...input,
+        }
+        return reviews[index]
     },
 }
